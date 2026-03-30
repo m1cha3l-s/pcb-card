@@ -21,3 +21,4 @@ I have included a simple firmware which shows m1cha3l (my name) on the leds when
 
 ![Schematic](https://github.com/m1cha3l-s/pcb-card/blob/main/Pics/Schematic.png)
 
+## [BOM](https://github.com/m1cha3l-s/pcb-card/blob/main/BOM.csv)
