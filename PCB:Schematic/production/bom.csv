@@ -1,0 +1,10 @@
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
+,f06da421-139f-4461-bd72-0d63481e1e29,1,,
+"D1, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D2, D20, D21, D22, D23, D24, D25, D26, D27, D28, D29, D3, D30, D31, D32, D33, D34, D35, D36, D4, D5, D6, D7, D8, D9",LED_WS2812B-2020_PLCC4_2.0x2.0mm,36,WS2812B-2020,
+J1,PinHeader_1x07_P2.54mm_Vertical,1,Conn_01x07_Pin,
+"J2, J3",TestPoint_Pad_2.0x2.0mm,2,Conn_01x01_Pin,
+Q1,SOT-23,1,MMBT3904,
+R1,0603,1,330,
+"SW1, SW2",SW_PUSH_6mm_H4.3mm,2,SW_Push,
+U1,XIAO-ESP32C6-DIP,1,XIAO-ESP32-C6,
+U2,Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering,1,BME280,
