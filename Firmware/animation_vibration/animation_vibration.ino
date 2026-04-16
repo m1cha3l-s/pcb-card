@@ -18,7 +18,7 @@ int previousButton2 = LOW;
 const uint8_t TEMPERATURE_DISPLAY_BRIGHTNESS = 60;
 const uint16_t TEMPERATURE_FRAME_DELAY_MS = 80;
 bool temperatureAnimationActive = false;
-char temperatureText[10];
+char temperatureText[16];
 uint16_t temperatureTextWidth = 0;
 int temperatureScrollX = 0;
 unsigned long lastTemperatureFrameMs = 0;
@@ -78,7 +78,6 @@ void setup() {
   }
 
   matrix.begin();
-  matrix.setTextColor(matrix.Color(175, 10, 180));
   matrix.setBrightness(0);
   matrix.show();
 }
