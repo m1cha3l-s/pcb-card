@@ -16,6 +16,7 @@ int button1 = LOW;
 int button2 = LOW;
 
 void setup() {
+  Serial.begin(115200);
   pinMode(0, INPUT);
   pinMode(1, INPUT);
   pinMode(3, OUTPUT);
@@ -41,25 +42,28 @@ void loop() {
     matrix.setBrightness(0);
     matrix.show();
     digitalWrite(3, LOW);
+    Serial.println("Button 1 was activated and I vibrated!")
 
   }
   else if (button2 == HIGH) {
     if (temp <= 20) {
-      matrix.fillScreen(matrix.Color(0, 255, 0));
-      matrix.setBrightness(255);
-      matrix.show();
-      delay(1500);
-      matrix.setBrightness(0);
-      matrix.show();
+        matrix.fillScreen(matrix.Color(0, 255, 0));
+        matrix.setBrightness(255);
+        matrix.show();
+        delay(1500);
+        matrix.setBrightness(0);
+        matrix.show();
+        Serial.println("Button 2 was activated and the temp was under 20 C")
     } else {
-      matrix.fillScreen(matrix.Color(255, 0, 0));
-      matrix.setBrightness(255);
-      matrix.show();
-      delay(1500);
-      matrix.setBrightness(0);
-      matrix.show();
+        matrix.fillScreen(matrix.Color(255, 0, 0));
+        matrix.setBrightness(255);
+        matrix.show();
+        delay(1500);
+        matrix.setBrightness(0);
+        matrix.show();
+        Serial.println("Button 2 was activated and the temp was over 20 C");
 
-    }
+    } 
   }
-
+  Serial.println(temp);
 }
