@@ -9,63 +9,33 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(6, 6, D9,
   NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB            + NEO_KHZ800);
 Adafruit_BME280 bme;
-bool bmeAvailable = false;
 
 int button1 = LOW;
 int button2 = LOW;
-int previousButton2 = LOW;
-
-const uint8_t TEMPERATURE_DISPLAY_BRIGHTNESS = 60;
-const uint16_t TEMPERATURE_FRAME_DELAY_MS = 80;
-const uint16_t BUTTON_DEBOUNCE_DELAY_MS = 50;
-bool temperatureAnimationActive = false;
-char temperatureText[16];
-uint16_t temperatureTextWidth = 0;
-int temperatureScrollX = 0;
-unsigned long lastTemperatureFrameMs = 0;
-unsigned long lastButton2PressMs = 0;
-
-void startTemperatureAnimation() {
-  if (!bmeAvailable) {
-    return;
-  }
+void showTemperatureAnimation() {
   float temperatureC = bme.readTemperature();
-  if (isnan(temperatureC)) {
-    return;
-  }
-  snprintf(temperatureText, sizeof(temperatureText), "%.1f C", temperatureC);
+  char temperatureText[16];
+  snprintf(temperatureText, sizeof(temperatureText), "%.1fC", temperatureC);
+
+  matrix.setBrightness(60);
   matrix.setTextWrap(false);
   matrix.setTextColor(matrix.Color(175, 10, 180));
+
   int16_t x1, y1;
   uint16_t w, h;
   matrix.getTextBounds(temperatureText, 0, 0, &x1, &y1, &w, &h);
-  temperatureTextWidth = w;
-  temperatureScrollX = matrix.width();
-  lastTemperatureFrameMs = millis() - TEMPERATURE_FRAME_DELAY_MS;
-  temperatureAnimationActive = true;
-  matrix.setBrightness(TEMPERATURE_DISPLAY_BRIGHTNESS);
-}
 
-void updateTemperatureAnimation() {
-  if (!temperatureAnimationActive) {
-    return;
-  }
-  unsigned long now = millis();
-  if ((now - lastTemperatureFrameMs) < TEMPERATURE_FRAME_DELAY_MS) {
-    return;
-  }
-  lastTemperatureFrameMs = now;
-  matrix.fillScreen(0);
-  matrix.setCursor(temperatureScrollX, 0);
-  matrix.print(temperatureText);
-  matrix.show();
-  temperatureScrollX--;
-  if (temperatureScrollX < -static_cast<int>(temperatureTextWidth)) {
+  for (int x = matrix.width(); x >= -w; x--) {
     matrix.fillScreen(0);
-    matrix.setBrightness(0);
+    matrix.setCursor(x, 0);
+    matrix.print(temperatureText);
     matrix.show();
-    temperatureAnimationActive = false;
+    delay(80);
   }
+
+  matrix.fillScreen(0);
+  matrix.setBrightness(0);
+  matrix.show();
 }
 
 void setup() {
@@ -74,10 +44,7 @@ void setup() {
   pinMode(3, OUTPUT);
 
   Wire.begin();
-  bmeAvailable = bme.begin(0x76);
-  if (!bmeAvailable) {
-    bmeAvailable = bme.begin(0x77);
-  }
+  bme.begin(0x76);
 
   matrix.begin();
   matrix.setBrightness(0);
@@ -92,13 +59,8 @@ void loop() {
     delay(500);
     digitalWrite(3, LOW);
   }
-  if (button2 == HIGH &&
-      previousButton2 == LOW &&
-      (millis() - lastButton2PressMs) >= BUTTON_DEBOUNCE_DELAY_MS) {
-    lastButton2PressMs = millis();
-    startTemperatureAnimation();
+  else if (button2 == HIGH) {
+    showTemperatureAnimation();
   }
-  previousButton2 = button2;
-  updateTemperatureAnimation();
 
 }
