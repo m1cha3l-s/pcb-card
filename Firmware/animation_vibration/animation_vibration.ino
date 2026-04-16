@@ -17,11 +17,13 @@ int previousButton2 = LOW;
 
 const uint8_t TEMPERATURE_DISPLAY_BRIGHTNESS = 60;
 const uint16_t TEMPERATURE_FRAME_DELAY_MS = 80;
+const uint16_t BUTTON_DEBOUNCE_DELAY_MS = 50;
 bool temperatureAnimationActive = false;
 char temperatureText[16];
 uint16_t temperatureTextWidth = 0;
 int temperatureScrollX = 0;
 unsigned long lastTemperatureFrameMs = 0;
+unsigned long lastButton2PressMs = 0;
 
 void startTemperatureAnimation() {
   if (!bmeAvailable) {
@@ -31,7 +33,7 @@ void startTemperatureAnimation() {
   if (isnan(temperatureC)) {
     return;
   }
-  snprintf(temperatureText, sizeof(temperatureText), "%.1fC", temperatureC);
+  snprintf(temperatureText, sizeof(temperatureText), "%.1f C", temperatureC);
   matrix.setTextWrap(false);
   matrix.setTextColor(matrix.Color(175, 10, 180));
   int16_t x1, y1;
@@ -39,7 +41,7 @@ void startTemperatureAnimation() {
   matrix.getTextBounds(temperatureText, 0, 0, &x1, &y1, &w, &h);
   temperatureTextWidth = w;
   temperatureScrollX = matrix.width();
-  lastTemperatureFrameMs = 0;
+  lastTemperatureFrameMs = millis() - TEMPERATURE_FRAME_DELAY_MS;
   temperatureAnimationActive = true;
   matrix.setBrightness(TEMPERATURE_DISPLAY_BRIGHTNESS);
 }
@@ -49,7 +51,7 @@ void updateTemperatureAnimation() {
     return;
   }
   unsigned long now = millis();
-  if (lastTemperatureFrameMs != 0 && (now - lastTemperatureFrameMs) < TEMPERATURE_FRAME_DELAY_MS) {
+  if ((now - lastTemperatureFrameMs) < TEMPERATURE_FRAME_DELAY_MS) {
     return;
   }
   lastTemperatureFrameMs = now;
@@ -90,7 +92,10 @@ void loop() {
     delay(500);
     digitalWrite(3, LOW);
   }
-  if (button2 == HIGH && previousButton2 == LOW) {
+  if (button2 == HIGH &&
+      previousButton2 == LOW &&
+      (millis() - lastButton2PressMs) >= BUTTON_DEBOUNCE_DELAY_MS) {
+    lastButton2PressMs = millis();
     startTemperatureAnimation();
   }
   previousButton2 = button2;
