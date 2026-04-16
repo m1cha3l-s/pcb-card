@@ -17,7 +17,7 @@ I have included a simple firmware which shows red when the temp from BME280 is o
 ![Looks](https://github.com/m1cha3l-s/pcb-card/blob/main/Pics/side2.png)
 
 ## Schematic and PCB
-![PCB](https://github.com/m1cha3l-s/pcb-card/blob/main/Pics/PCB.png)
+![PCB](https://github.com/m1cha3l-s/pcb-card/blob/main/Pics/PCBnew.png)
 
 ![Schematic](https://github.com/m1cha3l-s/pcb-card/blob/main/Pics/Schematic.png)
 
