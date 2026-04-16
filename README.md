@@ -5,7 +5,7 @@ You were luck enough to recieve my pcb business card! You can keep it in your wa
 You can buy the components I have in my bom to build this together! Also I included headers which you can solder to add more sensors for smart home!
 
 ## Firmware
-I have included a simple firmware which shows m1cha3l (my name) on the leds when you press button number 2 and vibrates when you press button number 1.
+I have included a simple firmware which shows red when the temp from BME280 is over 20℃ and green when under when you press button number 2 and vibrates and shows blue when you press button number 1.
 1. Open Arduino IDE
 2. Choose seeed xiao ESP32-C6
 3. Flash and enjoy!!
