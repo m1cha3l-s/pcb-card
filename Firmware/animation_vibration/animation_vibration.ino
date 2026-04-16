@@ -9,11 +9,16 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(6, 6, D9,
   NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB            + NEO_KHZ800);
 Adafruit_BME280 bme;
+bool bmeAvailable = false;
 
 int button1 = LOW;
 int button2 = LOW;
 
 void showTemperatureAnimation() {
+  if (!bmeAvailable) {
+    return;
+  }
+
   float temperatureC = bme.readTemperature();
   if (isnan(temperatureC)) {
     return;
@@ -49,13 +54,10 @@ void setup() {
   pinMode(3, OUTPUT);
 
   Wire.begin();
-  if (!bme.begin(0x76)) {
-    bme.begin(0x77);
-  }
+  bmeAvailable = bme.begin(0x76) || bme.begin(0x77);
 
   matrix.begin();
   matrix.setTextColor(matrix.Color(175, 10, 180));
-  matrix.setTextWrap(false);
   matrix.setBrightness(0);
   matrix.show();
 }
