@@ -34,8 +34,14 @@ void loop() {
   float temp = bme.readTemperature();
   if (button1 == HIGH) {
     digitalWrite(3, HIGH);
+    matrix.fillScreen(matrix.Color(0, 0, 255));
+    matrix.setBrightness(255);
+    matrix.show();
     delay(500);
+    matrix.setBrightness(0);
+    matrix.show();
     digitalWrite(3, LOW);
+
   }
   else if (button2 == HIGH) {
     if (temp <= 20) {
