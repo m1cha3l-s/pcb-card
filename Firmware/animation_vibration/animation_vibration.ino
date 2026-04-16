@@ -42,7 +42,7 @@ void loop() {
     matrix.setBrightness(0);
     matrix.show();
     digitalWrite(3, LOW);
-    Serial.println("Button 1 was activated and I vibrated!")
+    Serial.println("Button 1 was activated and I vibrated!");
 
   }
   else if (button2 == HIGH) {
@@ -53,7 +53,7 @@ void loop() {
         delay(1500);
         matrix.setBrightness(0);
         matrix.show();
-        Serial.println("Button 2 was activated and the temp was under 20 C")
+        Serial.println("Button 2 was activated and the temp was under 20 C");
     } else {
         matrix.fillScreen(matrix.Color(255, 0, 0));
         matrix.setBrightness(255);
